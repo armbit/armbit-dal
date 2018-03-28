@@ -1,8 +1,8 @@
 {
   "name": "microbit-dal",
-  "version": "2.0.0-rc9",
+  "version": "5.0.0",
   "license": "MIT",
-  "description": "The runtime library for the BBC micro:bit, developed by Lancaster University",
+  "description": "The runtime library for the armbit board, developed by Armbit",
   "keywords": [
     "mbed-classic",
     "microbit",
@@ -11,8 +11,8 @@
     "lancaster",
     "University"
   ],
-  "author": "Joe Finney <j.finney@lancaster.ac.uk (mailto:j.finney@lancaster.ac.uk) >",
-  "homepage": "https://github.com/lancaster-university/microbit-dal/",
+  "author": "Philip Zhang <51904@qq.com (mailto:51904@qq.com) >",
+  "homepage": "https://github.com/armbit",
   "dependencies": {
     "mbed-classic": "lancaster-university/mbed-classic#microbit_hfclk+mb6",
     "ble": "lancaster-university/BLE_API#v2.5.0+mb3",
