@@ -181,13 +181,17 @@ void microbit_panic(int statusCode)
     uint8_t     count = panic_timeout ? panic_timeout : 1;
     uint8_t     strobeRow = 0;
 
+#if MICROBIT_DISPLAY_TYPE == ARMBIT_V01
+    row_mask = 0x0015E000;     // Row1-6 by p0.13 14 15 16 18 20
+    col_mask = 0x00001FF0;     // Col1-9 by p0.04-12
+#else
     row_mask = 0;
     for (int i = microbitMatrixMap.rowStart; i < microbitMatrixMap.rowStart + microbitMatrixMap.rows; i++)
         row_mask |= 0x01 << i;
 
     for (int i = microbitMatrixMap.columnStart; i < microbitMatrixMap.columnStart + microbitMatrixMap.columns; i++)
         col_mask |= 0x01 << i;
-
+#endif
     PortOut LEDMatrix(Port0, row_mask | col_mask);
 
     if(statusCode < 0 || statusCode > 999)

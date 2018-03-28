@@ -319,9 +319,10 @@ extern uint32_t __etext;
 #define MICROBIT_3X9                            2
 #define MICROBIT_SB1                            3
 #define MICROBIT_SB2                            4
+#define ARMBIT_V01                              5   // DBian
 
 #ifndef MICROBIT_DISPLAY_TYPE
-#define MICROBIT_DISPLAY_TYPE                   MICROBIT_SB2
+#define MICROBIT_DISPLAY_TYPE                   ARMBIT_V01
 #endif
 
 // Selects the minimum permissable brightness level for the device

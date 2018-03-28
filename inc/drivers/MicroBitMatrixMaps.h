@@ -68,8 +68,13 @@ struct MatrixMap
 /*
  * Dimensions for well known micro:bit LED configurations
  */
+#if MICROBIT_DISPLAY_TYPE == ARMBIT_V01
+#define MICROBIT_DISPLAY_WIDTH                  6
+#define MICROBIT_DISPLAY_HEIGHT                 9
+#else
 #define MICROBIT_DISPLAY_WIDTH                  5
 #define MICROBIT_DISPLAY_HEIGHT                 5
+#endif
 #define MICROBIT_DISPLAY_ROW1                   p13
 #define MICROBIT_DISPLAY_COL1                   p4
 
@@ -144,6 +149,25 @@ struct MatrixMap
 
 #endif
 
+#if MICROBIT_DISPLAY_TYPE == ARMBIT_V01
+
+#define MICROBIT_DISPLAY_COLUMN_COUNT       9
+#define MICROBIT_DISPLAY_ROW_COUNT          6
+
+    const MatrixPoint microbitDisplayMap[MICROBIT_DISPLAY_ROW_COUNT * MICROBIT_DISPLAY_COLUMN_COUNT] =
+    {
+        {1,2},{5,4},{3,6},{3,0},{1,1},{5,7},
+        {3,2},{1,4},{5,6},{4,0},{2,1},{0,6},
+        {5,2},{3,4},{1,6},{5,0},{3,1},{1,8},
+        {5,5},{2,2},{1,3},{0,0},{4,1},{2,8},
+        {4,5},{4,2},{2,3},{0,1},{5,1},{3,8},
+        {3,5},{4,6},{3,3},{0,2},{1,7},{4,8},
+        {2,5},{2,6},{4,3},{0,3},{2,7},{5,8},
+        {1,5},{1,0},{5,3},{0,4},{3,7},{0,7},
+        {2,4},{2,0},{4,4},{0,5},{4,7},{0,8}
+    };
+
+#endif
 //ROW1 and COL1 are defined in mbed classic:
 //https://github.com/mbedmicro/mbed/blob/master/libraries/mbed/targets/hal/TARGET_NORDIC/TARGET_MCU_NRF51822/TARGET_NRF51_MICROBIT/PinNames.h
 const MatrixMap microbitMatrixMap =

@@ -66,14 +66,19 @@ MicroBitDisplay::MicroBitDisplay(uint16_t id, const MatrixMap &map) :
     row_mask = 0;
     col_mask = 0;
     strobeRow = 0;
+    shiftRow = 0;
     row_mask = 0;
 
+#if MICROBIT_DISPLAY_TYPE == ARMBIT_V01
+    row_mask = 0x0015E000;     // Row1-6 by p0.13 14 15 16 18 20
+    col_mask = 0x00001FF0;     // Col1-9 by p0.04-12
+#else
     for (int i = matrixMap.rowStart; i < matrixMap.rowStart + matrixMap.rows; i++)
         row_mask |= 0x01 << i;
 
     for (int i = matrixMap.columnStart; i < matrixMap.columnStart + matrixMap.columns; i++)
         col_mask |= 0x01 << i;
-
+#endif
     LEDMatrix = new PortOut(Port0, row_mask | col_mask);
 
     this->greyscaleBitMsk = 0x01;
@@ -107,11 +112,19 @@ void MicroBitDisplay::systemTick()
 
     // Move on to the next row.
     strobeRow++;
+    shiftRow++;
+ #if MICROBIT_DISPLAY_TYPE == ARMBIT_V01
+    if (shiftRow>=4)
+        shiftRow ++;     // using p13 14 15 16 18 20, strobe shift 1 for row 4&5
+#endif
 
     //reset the row counts and bit mask when we have hit the max.
     if(strobeRow == matrixMap.rows)
+    {
         strobeRow = 0;
-
+        shiftRow = 0;
+    }
+    
     if(mode == DISPLAY_MODE_BLACK_AND_WHITE)
         render();
 
@@ -142,7 +155,7 @@ void MicroBitDisplay::render()
     }
 
     // Calculate the bitpattern to write.
-    uint32_t row_data = 0x01 << (matrixMap.rowStart + strobeRow);
+    uint32_t row_data = 0x01 << (matrixMap.rowStart + shiftRow);
     uint32_t col_data = 0;
 
     for (int i = 0; i < matrixMap.columns; i++)
@@ -197,6 +210,7 @@ void MicroBitDisplay::renderWithLightSense()
     {
         MicroBitEvent(id, MICROBIT_DISPLAY_EVT_LIGHT_SENSE);
         strobeRow = 0;
+        shiftRow  = 0;
     }
     else
     {
@@ -205,6 +219,11 @@ void MicroBitDisplay::renderWithLightSense()
 
         // Move on to the next row.
         strobeRow++;
+        shiftRow++;
+#if MICROBIT_DISPLAY_TYPE == ARMBIT_V01
+        if (shiftRow>=4)
+            shiftRow++;     // using p13 14 15 16 18 20, strobe shift 1 for row 4&5
+#endif
     }
 
 }
@@ -219,7 +238,7 @@ void MicroBitDisplay::renderGreyscale()
         return;
     }
 
-    uint32_t row_data = 0x01 << (matrixMap.rowStart + strobeRow);
+    uint32_t row_data = 0x01 << (matrixMap.rowStart + shiftRow);
     uint32_t col_data = 0;
 
     // Calculate the bitpattern to write.
@@ -1102,15 +1121,19 @@ void MicroBitDisplay::setEnable(bool enableDisplay)
     // If we're already in the correct state, then there's nothing to do.
     if(((status & MICROBIT_COMPONENT_RUNNING) && enableDisplay) || (!(status & MICROBIT_COMPONENT_RUNNING) && !enableDisplay))
         return;
-
     uint32_t rmask = 0;
     uint32_t cmask = 0;
 
+#if MICROBIT_DISPLAY_TYPE == ARMBIT_V01
+    rmask = 0x0015E000;     // Row1-6 by p0.13 14 15 16 18 20
+    cmask = 0x00001FF0;     // Col1-9 by p0.04-12
+#else
     for (int i = matrixMap.rowStart; i < matrixMap.rowStart + matrixMap.rows; i++)
         rmask |= 0x01 << i;
 
     for (int i = matrixMap.columnStart; i < matrixMap.columnStart + matrixMap.columns; i++)
         cmask |= 0x01 << i;
+#endif
 
     if (enableDisplay)
     {

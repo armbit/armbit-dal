@@ -84,6 +84,7 @@ class MicroBitDisplay : public MicroBitComponent
     uint8_t height;
     uint8_t brightness;
     uint8_t strobeRow;
+    uint8_t shiftRow;
     uint8_t rotation;
     uint8_t mode;
     uint8_t greyscaleBitMsk;
