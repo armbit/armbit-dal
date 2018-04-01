@@ -260,6 +260,10 @@ void microbit_panic(int statusCode)
                 //update the bit mask and row count
                 row_data <<= 1;
                 strobeRow++;
+#if MICROBIT_DISPLAY_TYPE == ARMBIT_V01
+                if (strobeRow>=4)
+                    row_data <<= 1;     // using p13 14 15 16 18 20, strobe shift 1 for row 4&5
+#endif
                 outerCount++;
             }
         }

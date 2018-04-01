@@ -33,6 +33,12 @@ DEALINGS IN THE SOFTWARE.
 
 #define MICROBIT_PIN_BUTTON_A                   P0_17
 #define MICROBIT_PIN_BUTTON_B                   P0_26
+
+#if MICROBIT_DISPLAY_TYPE == ARMBIT_V01
+#define MICROBIT_PIN_BUTTON_C                   P0_21
+#define MICROBIT_PIN_BUTTON_D                   P0_22
+#endif
+
 #define MICROBIT_PIN_BUTTON_RESET               P0_19
 
 #define MICROBIT_BUTTON_EVT_DOWN                1
