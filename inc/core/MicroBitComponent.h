@@ -68,10 +68,8 @@ DEALINGS IN THE SOFTWARE.
 #define MICROBIT_ID_MULTIBUTTON_ATTACH  31
 #define MICROBIT_ID_SERIAL              32
 
-#if MICROBIT_DISPLAY_TYPE == ARMBIT_V01
 #define MICROBIT_ID_BUTTON_C            22        // MUX with MOSI
 #define MICROBIT_ID_BUTTON_D            21        // MUX with MISO
-#endif
 
 #define MICROBIT_ID_MESSAGE_BUS_LISTENER            1021          // Message bus indication that a handler for a given ID has been registered.
 #define MICROBIT_ID_NOTIFY_ONE                      1022          // Notfication channel, for general purpose synchronisation
